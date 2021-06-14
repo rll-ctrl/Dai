@@ -1,6 +1,26 @@
-type ExampleEntity @entity {
+type Approvals @entity {
   id: ID!
   count: BigInt!
   owner: Bytes! # address
   spender: Bytes! # address
+}
+
+type Owner @entity {
+  id: ID!
+  prevOwner: Bytes!
+  newOwner: Bytes!
+}
+
+type Transfers @entity {
+  id: ID!
+  count: BigInt!
+  from: Bytes!
+  to: Bytes!
+  value: BigInt!
+}
+
+type Volume @entity {
+  id: ID!
+  updateCounts: BigInt!
+  cumulativeVolume: BigDecimal!
 }

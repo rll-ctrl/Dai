@@ -1,4 +1,6 @@
-specVersion: 0.0.1
+specVersion: 0.0.2
+description: Dai Volume Query (bsc)
+repository: https://github.com/rll-ctrl/Dai
 schema:
   file: ./schema.graphql
 dataSources:
@@ -10,12 +12,13 @@ dataSources:
       abi: Dai
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.2
+      apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
-        - Approval
-        - OwnershipTransferred
-        - Transfer
+        - Approvals
+        - Owner
+        - Transfers
+        - Volume
       abis:
         - name: Dai
           file: ./abis/Dai.json

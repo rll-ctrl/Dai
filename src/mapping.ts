@@ -5,37 +5,25 @@ import {
   OwnershipTransferred,
   Transfer
 } from "../generated/Dai/Dai"
-import { ExampleEntity } from "../generated/schema"
+import { 
+  Approvals,
+  Owner, 
+  Transfers,
+  Volume 
+} from "../generated/schema"
 
 export function handleApproval(event: Approval): void {
-  // Entities can be loaded from the store using a string ID; this ID
-  // needs to be unique across all entities of the same type
-  let entity = ExampleEntity.load(event.transaction.from.toHex())
+  let entity = Approvals.load(event.transaction.from.toHex())
 
-  // Entities only exist after they have been saved to the store;
-  // `null` checks allow to create entities on demand
   if (entity == null) {
-    entity = new ExampleEntity(event.transaction.from.toHex())
-
-    // Entity fields can be set using simple assignments
+    entity = new Approvals(event.transaction.from.toHex())
     entity.count = BigInt.fromI32(0)
   }
 
-  // BigInt and BigDecimal math are supported
   entity.count = entity.count + BigInt.fromI32(1)
-
-  // Entity fields can be set based on event parameters
   entity.owner = event.params.owner
   entity.spender = event.params.spender
-
-  // Entities can be written to the store with `.save()`
   entity.save()
-
-  // Note: If a handler doesn't require existing field values, it is faster
-  // _not_ to load the entity from the store. Instead, create it fresh with
-  // `new Entity(...)`, set the fields that should be updated and save the
-  // entity back to the store. Fields that were not set or unset remain
-  // unchanged, allowing for partial updates to be applied.
 
   // It is also possible to access smart contracts from mappings. For
   // example, the contract that has emitted the event can be connected to
@@ -66,6 +54,36 @@ export function handleApproval(event: Approval): void {
   // - contract.transferFrom(...)
 }
 
-export function handleOwnershipTransferred(event: OwnershipTransferred): void {}
+export function handleOwnershipTransferred(event: OwnershipTransferred): void {
+  let entity = Owner.load(event.transaction.from.toHex())
+  entity.prevOwner = event.params.previousOwner
+  entity.newOwner = event.params.newOwner
+  entity.save()
+}
 
-export function handleTransfer(event: Transfer): void {}
+export function handleTransfer(event: Transfer): void {
+  let entity1 = Transfers.load(event.transaction.from.toHex())
+
+  if (entity1 == null) {
+    entity1 = new Transfers(event.transaction.from.toHex())
+    entity1.count = BigInt.fromI32(0)
+  }
+
+  entity1.count = entity1.count + BigInt.fromI32(1)
+  entity1.from = event.params.from
+  entity1.to = event.params.to
+  entity1.value = event.params.value
+  entity1.save()
+
+  let entity2 = Volume.load(event.transaction.from.toHex());
+
+  if (entity2 == null) {
+    entity2 = new Volume(event.transaction.from.toHex())
+    entity2.updateCounts = BigInt.fromI32(0)
+    entity2.cumulativeVolume = BigInt.fromI32(0)
+  }
+
+  entity2.updateCounts = entity2.updateCounts + BigInt.fromI32(1)
+  entity2.cumulativeVolume = entity2.cumulativeVolume + event.params.value
+
+}
