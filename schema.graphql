@@ -22,5 +22,5 @@ type Transfers @entity {
 type Volume @entity {
   id: ID!
   updateCounts: BigInt!
-  cumulativeVolume: BigDecimal!
+  cumulativeVolume: BigInt!
 }

@@ -12,7 +12,7 @@ import {
   BigDecimal
 } from "@graphprotocol/graph-ts";
 
-export class ExampleEntity extends Entity {
+export class Approvals extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -20,17 +20,17 @@ export class ExampleEntity extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id !== null, "Cannot save ExampleEntity entity without an ID");
+    assert(id !== null, "Cannot save Approvals entity without an ID");
     assert(
       id.kind == ValueKind.STRING,
-      "Cannot save ExampleEntity entity with non-string ID. " +
+      "Cannot save Approvals entity with non-string ID. " +
         'Considering using .toHex() to convert the "id" to a string.'
     );
-    store.set("ExampleEntity", id.toString(), this);
+    store.set("Approvals", id.toString(), this);
   }
 
-  static load(id: string): ExampleEntity | null {
-    return store.get("ExampleEntity", id) as ExampleEntity | null;
+  static load(id: string): Approvals | null {
+    return store.get("Approvals", id) as Approvals | null;
   }
 
   get id(): string {
@@ -67,5 +67,170 @@ export class ExampleEntity extends Entity {
 
   set spender(value: Bytes) {
     this.set("spender", Value.fromBytes(value));
+  }
+}
+
+export class Owner extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save Owner entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save Owner entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("Owner", id.toString(), this);
+  }
+
+  static load(id: string): Owner | null {
+    return store.get("Owner", id) as Owner | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get prevOwner(): Bytes {
+    let value = this.get("prevOwner");
+    return value.toBytes();
+  }
+
+  set prevOwner(value: Bytes) {
+    this.set("prevOwner", Value.fromBytes(value));
+  }
+
+  get newOwner(): Bytes {
+    let value = this.get("newOwner");
+    return value.toBytes();
+  }
+
+  set newOwner(value: Bytes) {
+    this.set("newOwner", Value.fromBytes(value));
+  }
+}
+
+export class Transfers extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save Transfers entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save Transfers entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("Transfers", id.toString(), this);
+  }
+
+  static load(id: string): Transfers | null {
+    return store.get("Transfers", id) as Transfers | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get count(): BigInt {
+    let value = this.get("count");
+    return value.toBigInt();
+  }
+
+  set count(value: BigInt) {
+    this.set("count", Value.fromBigInt(value));
+  }
+
+  get from(): Bytes {
+    let value = this.get("from");
+    return value.toBytes();
+  }
+
+  set from(value: Bytes) {
+    this.set("from", Value.fromBytes(value));
+  }
+
+  get to(): Bytes {
+    let value = this.get("to");
+    return value.toBytes();
+  }
+
+  set to(value: Bytes) {
+    this.set("to", Value.fromBytes(value));
+  }
+
+  get value(): BigInt {
+    let value = this.get("value");
+    return value.toBigInt();
+  }
+
+  set value(value: BigInt) {
+    this.set("value", Value.fromBigInt(value));
+  }
+}
+
+export class Volume extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save Volume entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save Volume entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("Volume", id.toString(), this);
+  }
+
+  static load(id: string): Volume | null {
+    return store.get("Volume", id) as Volume | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get updateCounts(): BigInt {
+    let value = this.get("updateCounts");
+    return value.toBigInt();
+  }
+
+  set updateCounts(value: BigInt) {
+    this.set("updateCounts", Value.fromBigInt(value));
+  }
+
+  get cumulativeVolume(): BigInt {
+    let value = this.get("cumulativeVolume");
+    return value.toBigInt();
+  }
+
+  set cumulativeVolume(value: BigInt) {
+    this.set("cumulativeVolume", Value.fromBigInt(value));
   }
 }

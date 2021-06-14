@@ -85,5 +85,6 @@ export function handleTransfer(event: Transfer): void {
 
   entity2.updateCounts = entity2.updateCounts + BigInt.fromI32(1)
   entity2.cumulativeVolume = entity2.cumulativeVolume + event.params.value
+  entity2.save()
 
 }
