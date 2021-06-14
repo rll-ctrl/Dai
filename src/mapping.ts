@@ -75,10 +75,10 @@ export function handleTransfer(event: Transfer): void {
   entity1.value = event.params.value
   entity1.save()
 
-  let entity2 = Volume.load(event.transaction.from.toHex());
+  let entity2 = Volume.load(event.transaction.from.toHex().concat('-').concat(event.params.value.toHex()));
 
   if (entity2 == null) {
-    entity2 = new Volume(event.transaction.from.toHex())
+    entity2 = new Volume(event.transaction.from.toHex().concat('-').concat(event.params.value.toHex()))
     entity2.updateCounts = BigInt.fromI32(0)
     entity2.cumulativeVolume = BigInt.fromI32(0)
   }

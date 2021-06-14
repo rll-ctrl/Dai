@@ -1,0 +1,32 @@
+specVersion: 0.0.2
+description: Dai Volume Query (bsc)
+repository: https://github.com/rll-ctrl/Dai
+schema:
+  file: schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: Dai
+    network: bsc
+    source:
+      address: "0x1AF3F329e8BE154074D8769D1FFa4eE058B1DBc3"
+      abi: Dai
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Approvals
+        - Owner
+        - Transfers
+        - Volume
+      abis:
+        - name: Dai
+          file: Dai\abis\Dai.json
+      eventHandlers:
+        - event: Approval(indexed address,indexed address,uint256)
+          handler: handleApproval
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+      file: Dai\Dai.wasm
